@@ -206,9 +206,10 @@ This project is licensed under the MIT License.
 
 ## 📧 Contact
 
-Your Name - [khaledsaad_17@outlook.com](mailto:khaledsaad_17@outlook.com)
+My Email - [khaledsaad_17@outlook.com](mailto:khaledsaad_17@outlook.com)
 
 Project Link: [https://github.com/yourusername/secure-auth-api](https://github.com/khaledsaad17/SecureAuth-API)
+
 
 
 
