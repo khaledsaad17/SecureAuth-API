@@ -1,98 +1,201 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🔐 Secure Auth API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A robust, production-ready authentication and authorization microservice built with NestJS. This API provides a comprehensive set of security features including JWT tokens, 2FA, OAuth2 (Google), rate limiting, audit logging, and multi-project support. It is designed to be a reusable auth server for multiple client applications.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## ✨ Features
 
-## Description
+- **Complete Authentication Flow**
+  - User Registration with Email Verification
+  - Login with Password
+  - JWT Access & Refresh Tokens
+  - Forgot Password / Reset Password
+  - Logout
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Advanced Security**
+  - Two-Factor Authentication (2FA) via Google Authenticator (TOTP)
+  - OAuth2 Google Login (with temporary token storage)
+  - Rate Limiting (Throttling) on all endpoints
+  - Helmet.js for secure headers
+  - Input validation and sanitization (DTOs with whitelist)
 
-## Project setup
+- **Multi-Tenancy / Multi-Project Support**
+  - Isolate users by `project_identify` - allows one auth server to serve multiple frontend apps.
+  - Users can belong to multiple projects but maintain a single account (email/password).
 
-```bash
-$ npm install
-```
+- **Audit Trail**
+  - Automatic logging of critical actions (Login, Logout, 2FA verification, Password reset).
+  - Dedicated endpoints for users and admins to view logs.
 
-## Compile and run the project
+- **Developer Experience**
+  - Full Swagger/OpenAPI documentation at `/docs`.
+  - Environment-based configuration.
+  - Ready for Docker deployment.
 
-```bash
-# development
-$ npm run start
+## 🛠️ Tech Stack
 
-# watch mode
-$ npm run start:dev
+- **Framework:** [NestJS](https://nestjs.com/) (Node.js)
+- **Database:** MongoDB with Mongoose ODM
+- **Cache & Temp Storage:** Redis (for OAuth tokens and rate limiting)
+- **Security:** JWT, bcrypt, Speakeasy (2FA), Helmet, express-rate-limit (via Throttler)
+- **Documentation:** Swagger UI
+- **Language:** TypeScript
 
-# production mode
-$ npm run start:prod
-```
+## 🚀 Getting Started
 
-## Run tests
+### Prerequisites
 
-```bash
-# unit tests
-$ npm run test
+- Node.js (v18 or later)
+- npm or yarn
+- MongoDB instance (local or Atlas)
+- Redis server (local or cloud)
+- A Google Cloud Project (for OAuth, optional)
 
-# e2e tests
-$ npm run test:e2e
+### Installation
 
-# test coverage
-$ npm run test:cov
-```
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/yourusername/secure-auth-api.git
+    cd secure-auth-api
+    ```
 
-## Deployment
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+3.  **Set up environment variables**
+    Create a `.env` file in the root directory. Use the following template:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+    ```env
+    # Server
+    PORT=3001
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+    # Database (MongoDB)
+    DATABASE_URL=mongodb://localhost:27017/secure-auth
+    DATABASE_NAME=secure-auth
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+    # Redis
+    REDIS_HOST=localhost
+    REDIS_PORT=6379
 
-## Resources
+    # JWT Secrets (Use strong, random strings in production)
+    JWT_ACCESS_TOKEN_SECRET=your_super_secret_access_key_change_me
+    JWT_REFRESH_TOKEN_SECRET=your_super_secret_refresh_key_change_me
 
-Check out a few resources that may come in handy when working with NestJS:
+    # Email (for verification & password reset)
+    EMAIL_HOST=smtp.gmail.com
+    EMAIL_PORT=587
+    EMAIL_USER=your-email@gmail.com
+    EMAIL_PASSWORD=your-app-password
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+    # Frontend URL (for redirects after OAuth)
+    FRONTEND_URL=http://localhost:3000
 
-## Support
+    # Google OAuth
+    GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
+    GOOGLE_CLIENT_SECRET=your_google_client_secret
+    ```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+4.  **Run with Docker (Recommended)**
 
-## Stay in touch
+    Make sure Docker and Docker Compose are installed. The project includes a `docker-compose.yml` file (you may need to create one if not present) that sets up Node, MongoDB, and Redis.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+    ```bash
+    # Build and start all services
+    docker-compose up --build
+    ```
 
-## License
+5.  **Run locally (without Docker)**
+    - Ensure MongoDB and Redis are running on your machine.
+    - Start the development server:
+    ```bash
+    npm run start:dev
+    ```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+6.  **Access the API**
+    - API Base: `http://localhost:3001/api`
+    - Swagger Documentation: `http://localhost:3001/docs`
+
+## 📚 API Documentation
+
+Once the server is running, visit `/docs` for an interactive Swagger UI where you can test all endpoints.
+
+**Key Endpoint Categories:**
+- `POST /auth/register` - Create a new user.
+- `POST /auth/login` - Authenticate and get tokens.
+- `GET /auth/refresh` - Get a new access token using a refresh token.
+- `GET /auth/enable-2fa` - Enable 2FA and get a QR code.
+- `GET /auth/google` - Initiate Google OAuth login.
+- `GET /audit/logs` - Get audit logs for the current user.
+- `GET /audit/admin/logs/:userId` - (Admin) Get logs for any user.
+
+## 🗂️ Project Structure
+src/
+├── auth/ # Core authentication module
+│ ├── DTO/ # Data Transfer Objects (validation)
+│ ├── Decorator/ # Custom decorators (@GetUser, @SkipAuth)
+│ ├── guards/ # JWT, RefreshToken, GoogleAuth, Role guards
+│ ├── strategies/ # JWT and Google OAuth strategies
+│ └── auth.service.ts # Main business logic
+├── users/ # User management
+│ ├── DTO/ # User creation, login, password reset
+│ ├── user.schema.ts # Mongoose schema for User
+│ └── users.service.ts
+├── usersprojects/ # usersprojects management
+│ ├── usersprojects.schema.ts # Mongoose schema for usersprojects
+│ └── usersprojects.service.ts
+├── audit/ # Audit logging
+│ ├── audit.schema.ts
+│ ├── audit.service.ts
+│ └── audit.controller.ts
+├── conf-module/ # Configuration modules (environment)
+└── main.ts # Application entry point
+
+
+## 🔒 Security Considerations
+
+- **Passwords** are hashed using bcrypt.
+- **JWT tokens** are signed with separate secrets for access and refresh tokens.
+- **Refresh tokens** are stored securely and can be revoked (session management is implied).
+- **2FA secrets** are encrypted/hashed before storage.
+- **Rate limiting** is applied globally to prevent brute-force attacks.
+- **Input validation** is strict; extra fields are stripped automatically.
+
+## 📦 Deployment
+
+This API is containerized and can be deployed to any cloud provider (AWS, GCP, DigitalOcean) or orchestration platform (Kubernetes, Docker Swarm).
+
+### Using Docker Compose (Production-like)
+
+1.  Set up your production environment variables (use a secrets manager or `.env` file on the server).
+2.  Run:
+    ```bash
+    docker-compose -f docker-compose.prod.yml up -d
+    ```
+    *(Note: You may need to create a production-specific compose file with different build commands and restart policies.)*
+
+### Environment Variables for Production
+
+Ensure the following variables are strong and secure:
+- `JWT_ACCESS_TOKEN_SECRET`
+- `JWT_REFRESH_TOKEN_SECRET`
+- `DATABASE_URL` (should point to your production DB)
+- `REDIS_HOST` / `REDIS_PORT`
+
+## 👥 Contributing / Customization
+
+This API is designed to be a standalone microservice. To integrate it with your own projects:
+
+1.  Set the `project_identify` field during registration/login to separate user bases.
+2.  Configure CORS to accept requests from your frontend domains.
+3.  Use the provided JWT tokens to authenticate requests to your other backend services (by validating the token against this auth service or using a shared secret).
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 📧 Contact
+
+Your Name - [khaledsaad_17@outlook.com](mailto:khaledsaad_17@outlook.com)
+
+Project Link: [https://github.com/yourusername/secure-auth-api](https://github.com/khaledsaad17/SecureAuth-API)
