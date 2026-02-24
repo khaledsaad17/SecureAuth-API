@@ -40,14 +40,14 @@ A robust, production-ready authentication and authorization microservice built w
 - **Documentation:** Swagger UI
 - **Language:** TypeScript
 
-📚 API Documentation
-Interactive Swagger documentation is available at:
+## 📚 API Documentation
 
+Interactive Swagger documentation is available at:
 url: http://localhost:3001/docs
 
--Test all endpoints directly from your browser
--JWT authentication supported via "Authorize" button
--Complete request/response schemas for all DTOs
+- **Test all endpoints directly from your browser
+- **JWT authentication supported via "Authorize" button
+- **Complete request/response schemas for all DTOs
 
 ## 🚀 Getting Started
 
@@ -139,6 +139,7 @@ Once the server is running, visit `/docs` for an interactive Swagger UI where yo
 - `GET /audit/admin/logs/:userId` - (Admin) Get logs for any user.
 
 ## 🗂️ Project Structure
+```
 src/
 ├── auth/ # Core authentication module
 │ ├── DTO/ # Data Transfer Objects (validation)
@@ -160,7 +161,7 @@ src/
 ├── conf-module/ # Configuration modules (environment)
 └── main.ts # Application entry point
 
-
+```
 ## 🔒 Security Considerations
 
 - **Passwords** are hashed using bcrypt.
@@ -208,4 +209,5 @@ This project is licensed under the MIT License.
 Your Name - [khaledsaad_17@outlook.com](mailto:khaledsaad_17@outlook.com)
 
 Project Link: [https://github.com/yourusername/secure-auth-api](https://github.com/khaledsaad17/SecureAuth-API)
+
 
