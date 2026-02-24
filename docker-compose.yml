@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    ports:
+      - "3001:3001"
+    env_file: .env
+    networks:
+      - khaled-internal-network-for-mongo
+      - secure-auth-network
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7
+    restart: always
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - secure-auth-network
+
+networks:
+  khaled-internal-network-for-mongo:
+    external: true
+  secure-auth-network:
+    driver: bridge
+
+volumes:
+  redis_data:
+  Mongo_DB_File:
